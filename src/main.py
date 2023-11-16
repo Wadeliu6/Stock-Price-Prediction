@@ -14,6 +14,7 @@ def main():
     final_df['cleaned_tweet'] = final_df['body'].apply(preprocess_text)
     final_df['sentiment'] = final_df['cleaned_tweet'].apply(analyze_sentiment)
     final_df = calculate_z_scores(final_df)
+    process_time(final_df)
 
     # Vectorization with limited features and using sparse matrix
     vectorizer = TfidfVectorizer(ngram_range=(1, 2), max_features=10000)
