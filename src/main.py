@@ -4,7 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sentiment_analyzer import analyze_sentiment, calculate_z_scores
-from data_processing import load_datasets, preprocess_text
+from data_processing import load_datasets, preprocess_text, get_stock_price, process_time
 
 def main():
     # Load and merge data
