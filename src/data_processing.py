@@ -4,6 +4,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import nltk
 import data
+import yfinance as yf
 
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -32,7 +33,11 @@ def preprocess_text(text):
     lemmatizer = WordNetLemmatizer()
     text = ' '.join([lemmatizer.lemmatize(word) for word in text.split()])
     return text
-
+def get_stock_price(company: str):
+    ticker = yf.Ticker(company)
+    stock = ticker.history(start="2015-01-01", end="2020-12-31")
+    stock['Daily Difference'] = stock['Close'].diff()
+    return stock
 
 
 
