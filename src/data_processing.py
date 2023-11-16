@@ -39,6 +39,7 @@ def process_time(df):
 def get_stock_price(company: str):
     ticker = yf.Ticker(company)
     stock = ticker.history(start="2015-01-01", end="2020-12-31")
+    stock.reset_index(inplace=True)
     stock['Daily Difference'] = stock['Close'].diff()
     return stock
 
