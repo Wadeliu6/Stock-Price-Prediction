@@ -33,6 +33,9 @@ def preprocess_text(text):
     lemmatizer = WordNetLemmatizer()
     text = ' '.join([lemmatizer.lemmatize(word) for word in text.split()])
     return text
+def process_time(df):
+    # change the Unix or Epoch time format to a normal day time format
+    df['post_date'] = pd.to_datetime(df['post_date'], unit='s')
 def get_stock_price(company: str):
     ticker = yf.Ticker(company)
     stock = ticker.history(start="2015-01-01", end="2020-12-31")
