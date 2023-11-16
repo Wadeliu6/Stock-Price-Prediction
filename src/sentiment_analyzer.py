@@ -9,6 +9,13 @@ def aggregate_sentiment(dataframe, group_by_column, sentiment_column):
     aggregated_data = dataframe.groupby(group_by_column)[sentiment_column].mean().reset_index()
     return aggregated_data
 def calculate_z_scores(dataframe, window=15):
+   def calculate_z_scores(dataframe):
+    # Calculate the value of window
+    end_date = dataframe['post_date']
+    start_date = end_date - pd.Timedelta(days=15)
+    filtered_df = dataframe[(dataframe['post_date'] >= start_date) & (dataframe['post_date'] <= end_date)]
+    window = filtered_df.shape[0]
+
     # Calculate the rolling mean and standard deviation
     rolling_mean = dataframe['sentiment'].rolling(window=window).mean()
     rolling_std = dataframe['sentiment'].rolling(window=window).std()
