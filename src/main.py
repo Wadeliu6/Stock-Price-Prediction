@@ -5,6 +5,7 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sentiment_analyzer import analyze_sentiment, calculate_z_scores
 from data_processing import load_datasets, preprocess_text, get_stock_price, process_time
+from Linear_Regression_Model import linear_regression_model
 
 def main():
     # Load and merge data
@@ -36,5 +37,17 @@ def main():
     # Predict and evaluate the classifier
     y_pred = clf.predict(X_test)
     print(classification_report(y_test, y_pred))
+
+    
+    # Apple
+    apple_df = final_df[final_df['ticker_symbol'] == 'AAPL']
+    apple_df['post_date'] = apple_df['post_date'].dt.date
+    apple_stock = get_stock_price('AAPL')
+    apple_stock['Date'] = apple_stock['Date'].dt.date
+    print(apple_df)
+    apple_df = apple_df.merge(apple_stock, left_on='post_date', right_on='Date', how='left').dropna()
+    print(apple_df)
+    linear_regression_model(apple_df)
+    
 if __name__ == "__main__":
     main()
