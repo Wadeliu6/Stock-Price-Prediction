@@ -5,7 +5,7 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sentiment_analyzer import analyze_sentiment, get_vader_score, calculate_daily_sentiment_scores
 from data_processing import load_datasets, preprocess_text, get_stock_price, process_time, process_dataset
-from Linear_Regression_Model import linear_regression_model
+from Model import linear_regression_model
 
 def main():
     # Load and merge data
