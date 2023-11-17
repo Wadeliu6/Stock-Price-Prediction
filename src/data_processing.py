@@ -5,6 +5,7 @@ from nltk.stem import WordNetLemmatizer
 import nltk
 import data
 import yfinance as yf
+from sentiment_analyzer import calculate_daily_sentiment_scores
 
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -42,6 +43,13 @@ def get_stock_price(company: str):
     stock.reset_index(inplace=True)
     stock['Daily Difference'] = stock['Close'].diff()
     return stock
+def process_dataset(final_df, ticker: str):
+    company_df = final_df[final_df['ticker_symbol'] == ticker].copy()
+    company_df = calculate_daily_sentiment_scores(company_df)
+    company_stock = get_stock_price(ticker)
+    company_stock['Date'] = company_stock['Date'].dt.date
+    company_df = company_df.merge(company_stock, left_on='post_date', right_on='Date', how='left').dropna()
+    return company_df
 
 
 
