@@ -28,29 +28,29 @@ def aggregate_sentiment(dataframe, group_by_column, sentiment_column):
 #
 #     return dataframe
 
+
 def calculate_daily_sentiment_scores(dataframe, sentiment_column='sentiment', vader_column='vader_score', window=15):
     # Ensure 'post_date' is in datetime format
     dataframe['post_date'] = pd.to_datetime(dataframe['post_date']).dt.date
-    print(dataframe['post_date'])
     # Aggregate daily average sentiment and Vader scores
     daily_sentiment = dataframe.groupby('post_date').agg({sentiment_column: 'mean', vader_column: 'mean'}).reset_index()
     # Determine the window size: 15 days or the length of the dataset if it's smaller
     window_size = min(window, len(daily_sentiment))
 
     # Calculate rolling mean and standard deviation for sentiment scores
-    daily_sentiment['rolling_mean_sentiment'] = daily_sentiment[sentiment_column].rolling(window=window_size).mean()
-    daily_sentiment['rolling_std_sentiment'] = daily_sentiment[sentiment_column].rolling(window=window_size).std()
+    daily_sentiment['rolling_mean_sentiment'] = daily_sentiment[sentiment_column].rolling(window=window_size, min_periods=1).mean()
+    daily_sentiment['rolling_std_sentiment'] = daily_sentiment[sentiment_column].rolling(window=window_size, min_periods=1).std()
 
     # Calculate Z-scores
     daily_sentiment['z_score'] = (daily_sentiment[sentiment_column] - daily_sentiment['rolling_mean_sentiment']) / daily_sentiment['rolling_std_sentiment']
 
     # Calculate rolling average for Vader scores
-    daily_sentiment['rolling_vader_score'] = daily_sentiment[vader_column].rolling(window=window_size).mean()
+    daily_sentiment['rolling_vader_score'] = daily_sentiment[vader_column].rolling(window=window_size, min_periods=1).mean()
 
     # Drop NaN values
     daily_sentiment = daily_sentiment.dropna(subset=['z_score', 'rolling_vader_score'])
-    print(daily_sentiment)
     return daily_sentiment
+
 
 
 
