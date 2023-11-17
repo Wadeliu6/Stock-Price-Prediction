@@ -4,7 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sentiment_analyzer import analyze_sentiment, get_vader_score, calculate_daily_sentiment_scores
-from data_processing import load_datasets, preprocess_text, get_stock_price, process_time
+from data_processing import load_datasets, preprocess_text, get_stock_price, process_time, process_dataset
 from Linear_Regression_Model import linear_regression_model
 
 def main():
@@ -44,14 +44,12 @@ def main():
     final_df['vader_score'] = final_df['cleaned_tweet'].apply(get_vader_score)
 
     # Apple
-    apple_df = final_df[final_df['ticker_symbol'] == 'AAPL'].copy()
-    apple_df = calculate_daily_sentiment_scores(apple_df)
-    print(apple_df.columns)
-    # apple_df['post_date'] = apple_df['post_date'].dt.date
-    apple_stock = get_stock_price('AAPL')
-    apple_stock['Date'] = apple_stock['Date'].dt.date
-    print(apple_df)
-    apple_df = apple_df.merge(apple_stock, left_on='post_date', right_on='Date', how='left').dropna()
+    # apple_df = final_df[final_df['ticker_symbol'] == 'AAPL'].copy()
+    # apple_df = calculate_daily_sentiment_scores(apple_df)
+    # apple_stock = get_stock_price('AAPL')
+    # apple_stock['Date'] = apple_stock['Date'].dt.date
+    # apple_df = apple_df.merge(apple_stock, left_on='post_date', right_on='Date', how='left').dropna()
+    apple_df = process_dataset(final_df, 'AAPL')
     linear_regression_model(apple_df)
     
 if __name__ == "__main__":
