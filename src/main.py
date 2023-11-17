@@ -50,7 +50,7 @@ def main():
     # apple_stock['Date'] = apple_stock['Date'].dt.date
     # apple_df = apple_df.merge(apple_stock, left_on='post_date', right_on='Date', how='left').dropna()
     apple_df = process_dataset(final_df, 'AAPL')
-    linear_regression_model(apple_df)
+    linear_regression_model(apple_df.copy())
     
 if __name__ == "__main__":
     main()
