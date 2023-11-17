@@ -13,7 +13,7 @@ def load_datasets():
     # Load each dataset
     company_df = pd.read_csv('Company.csv')
     company_tweet_df = pd.read_csv('Company_Tweet.csv')
-    tweets_df = pd.read_csv('Tweet.csv')
+    tweets_df = pd.read_csv('company_test.csv')
 
     # Merge the datasets
     # First, merge Company_Tweet with Tweet based on tweet_id
