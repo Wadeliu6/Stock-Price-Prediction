@@ -47,11 +47,6 @@ def main():
     final_df['vader_score'] = final_df['cleaned_tweet'].apply(get_vader_score)
 
     # Apple
-    # apple_df = final_df[final_df['ticker_symbol'] == 'AAPL'].copy()
-    # apple_df = calculate_daily_sentiment_scores(apple_df)
-    # apple_stock = get_stock_price('AAPL')
-    # apple_stock['Date'] = apple_stock['Date'].dt.date
-    # apple_df = apple_df.merge(apple_stock, left_on='post_date', right_on='Date', how='left').dropna()
     apple_df = process_dataset(final_df, 'TSLA')
     linear_regression_model(apple_df.copy())
     ranforest_model(apple_df.copy())
