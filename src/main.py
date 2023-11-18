@@ -5,7 +5,7 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sentiment_analyzer import analyze_sentiment, get_vader_score, calculate_daily_sentiment_scores
 from data_processing import load_datasets, preprocess_text, get_stock_price, process_time, process_dataset
-from Model import linear_regression_model
+from Model import linear_regression_model, ranforest_model, lgbm_model
 
 def main():
     # Load and merge data
@@ -49,8 +49,10 @@ def main():
     # apple_stock = get_stock_price('AAPL')
     # apple_stock['Date'] = apple_stock['Date'].dt.date
     # apple_df = apple_df.merge(apple_stock, left_on='post_date', right_on='Date', how='left').dropna()
-    apple_df = process_dataset(final_df, 'AAPL')
-    linear_regression_model(apple_df.copy())
+    apple_df = process_dataset(final_df, 'TSLA')
+    #linear_regression_model(apple_df.copy())
+    #lgbm_model(apple_df.copy())
+    ranforest_model(apple_df.copy())
     
 if __name__ == "__main__":
     main()
