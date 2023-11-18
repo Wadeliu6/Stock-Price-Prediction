@@ -3,6 +3,8 @@ import re
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import nltk
+from pandas.tseries.holiday import USFederalHolidayCalendar
+
 import data
 import yfinance as yf
 from sentiment_analyzer import calculate_daily_sentiment_scores

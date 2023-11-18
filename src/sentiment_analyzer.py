@@ -47,6 +47,7 @@ def calculate_daily_sentiment_scores(dataframe, sentiment_column='sentiment', va
     # Calculate rolling average for Vader scores
     daily_sentiment['rolling_vader_score'] = daily_sentiment[vader_column].rolling(window=window_size, min_periods=1).mean()
 
+    print(daily_sentiment)
     # Drop NaN values
     daily_sentiment = daily_sentiment.dropna(subset=['z_score', 'rolling_vader_score'])
     return daily_sentiment

@@ -5,7 +5,9 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sentiment_analyzer import analyze_sentiment, get_vader_score, calculate_daily_sentiment_scores
 from data_processing import load_datasets, preprocess_text, get_stock_price, process_time, process_dataset
-from Model import linear_regression_model, ranforest_model, lgbm_model
+from Model import linear_regression_model, ranforest_model, gradient_boosting_model
+from pandas.tseries.holiday import USFederalHolidayCalendar
+
 
 def main():
     # Load and merge data
@@ -13,6 +15,7 @@ def main():
 
     # Data Preprocessing
     process_time(final_df)
+
     final_df['cleaned_tweet'] = final_df['body'].apply(preprocess_text)
     print(final_df.columns)
     final_df['sentiment'] = final_df['cleaned_tweet'].apply(analyze_sentiment)
@@ -50,9 +53,10 @@ def main():
     # apple_stock['Date'] = apple_stock['Date'].dt.date
     # apple_df = apple_df.merge(apple_stock, left_on='post_date', right_on='Date', how='left').dropna()
     apple_df = process_dataset(final_df, 'TSLA')
-    #linear_regression_model(apple_df.copy())
-    #lgbm_model(apple_df.copy())
+    linear_regression_model(apple_df.copy())
     ranforest_model(apple_df.copy())
-    
+    #sarima_model(apple_df.copy())
+    gradient_boosting_model(apple_df.copy())
+
 if __name__ == "__main__":
     main()
