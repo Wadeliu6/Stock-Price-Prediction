@@ -5,6 +5,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from statsmodels.tsa.statespace.sarimax import SARIMAX
+import matplotlib.pyplot as plt
 
 
 def linear_regression_model(company_df):
@@ -17,6 +18,7 @@ def linear_regression_model(company_df):
     model.fit(X_train, y_train)
 
     y_pred = model.predict(X_test)
+    visualization(company_df, model, X, 'Linear Regression Model')
 
     # Regression evaluation metrics
     mse = mean_squared_error(y_test, y_pred)
@@ -46,6 +48,10 @@ def ranforest_model(company_df):
     print(f'Mean Squared Error: {mse}')
     print(f'Root Mean Squared Error: {rmse}')
     print(pd.Series(y_pred))
+
+    visualization(company_df, regressor, X, 'Random Forest Regressor Model')
+    
+    
 
 # def lgbm_model(company_df):
 #     # LightGBM
@@ -91,8 +97,24 @@ def gradient_boosting_model(df):
     y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     print("Gradient Boosting Regressor Mean Squared Error:", mse)
+    visualization(df, model, X, 'Gradient Boosting Model')
 
     return model
+
+def visualization(df, model, features, title):
+    # draw a plot to show how the predicted value differ from the actual value
+    predicted_values = model.predict(features)
+    predicted_price = pd.DataFrame({'Date': df['post_date'],'Predicted': predicted_values})
+
+    plt.figure(figsize=(10,6))
+    plt.plot(df['post_date'], df['Close'], label='Actual Price')
+    plt.plot(predicted_price['Date'], predicted_price['Predicted'], label='Predicted Price', color='red')
+    plt.xlabel('Date')
+    plt.ylabel('Stock Price')
+    plt.xticks(rotation=45)
+    plt.title(title)
+    plt.legend()
+    plt.show()
 
 
 
